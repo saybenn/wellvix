@@ -1,115 +1,83 @@
-import Image from "next/image";
-import { Geist, Geist_Mono } from "next/font/google";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import { site as siteStatic } from "../lib/siteConfig";
+import { SEO, getMeta, organizationJsonLd, websiteJsonLd } from "../lib/seo";
 
 export default function Home() {
+  const meta = getMeta({
+    title: siteStatic?.meta?.title,
+    description: siteStatic?.meta?.description,
+    url: siteStatic?.meta?.url,
+  });
+
+  const jsonLd = [
+    organizationJsonLd({
+      name: siteStatic.brand,
+      url: siteStatic?.meta?.url,
+      logo: siteStatic?.logo?.src,
+    }),
+    websiteJsonLd({
+      name: siteStatic.brand,
+      url: siteStatic?.meta?.url,
+    }),
+  ];
+
   return (
-    <div
-      className={`${geistSans.className} ${geistMono.className} font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20`}
-    >
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              pages/index.js
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <>
+      <SEO meta={meta} jsonLd={jsonLd} />
+
+      <section className="bg-bg-950 text-white">
+        <div className="container-x py-24">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold">
+            {siteStatic.tagline}
+          </h1>
+          <p className="mt-4 text-white/70 max-w-2xl">
+            Provider-centric marketplace foundation. Booking windows for
+            in-person work, Stripe Checkout for digital tiers. Admin approval,
+            Provider dashboard, SEO + JSON-LD, GA4.
+          </p>
+          <div className="mt-8 flex gap-3">
+            <a
+              href="/signup"
+              className="inline-flex items-center rounded-xl bg-blue-600 text-white px-5 py-2.5 hover:bg-blue-500"
+            >
+              Get started
+            </a>
+            <a
+              href="/providers"
+              className="inline-flex items-center rounded-xl border border-white/20 text-white px-5 py-2.5 hover:border-white/40"
+            >
+              Browse providers
+            </a>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+      </section>
+
+      <section>
+        <div className="container-x py-16 grid gap-6 md:grid-cols-3">
+          {[
+            {
+              t: "Provider-first",
+              d: "Users book a specific provider. Availability windows gate in-person requests.",
+            },
+            {
+              t: "Digital tiers",
+              d: "Stripe Checkout for fixed-scope offerings and add-ons.",
+            },
+            {
+              t: "Ship to Supabase",
+              d: "Start with /data/*.json; migrate reads/writes with minimal surface change.",
+            },
+          ].map((card) => (
+            <div
+              key={card.t}
+              className="rounded-2xl border border-muted-400/30 p-6 bg-white"
+            >
+              <h3 className="font-semibold text-ink-900">{card.t}</h3>
+              <p className="mt-2 text-ink-700">{card.d}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+    </>
   );
 }
+

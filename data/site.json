@@ -1,0 +1,34 @@
+{
+  "brand": "Wellvix",
+  "tagline": "Provider-first booking & digital services",
+  "logo": { "src": "/logo.svg", "alt": "Wellvix" },
+  "nav": [
+    { "label": "Home", "href": "/" },
+    { "label": "Providers", "href": "/providers" },
+    { "label": "Pricing", "href": "/pricing" }
+  ],
+  "footer": {
+    "columns": [
+      {
+        "title": "Product",
+        "links": [
+          { "label": "How it works", "href": "/#how" },
+          { "label": "Provider dashboard", "href": "/dashboard" }
+        ]
+      },
+      {
+        "title": "Company",
+        "links": [
+          { "label": "About", "href": "/about" },
+          { "label": "Contact", "href": "/contact" }
+        ]
+      }
+    ],
+    "cta": { "label": "Get started", "href": "/signup" }
+  },
+  "meta": {
+    "title": "Wellvix — Provider-first marketplace",
+    "description": "StyleSeat-like booking + Fiverr-like digital tiers. Provider-centric flows only.",
+    "url": "http://localhost:3000"
+  }
+}
