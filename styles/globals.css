@@ -1,19 +1,16 @@
 @import "tailwindcss";
 
-/* =========================================
-   Tailwind v4 Tokens via @theme (REQUIRED)
-   - In v4, design tokens live here, not in tailwind.config.js
-   - Any --color-* becomes a class like text-*, bg-*, border-*
-   ========================================= */
+/* ===========================
+   Tailwind v4 Tokens via @theme
+   =========================== */
 :root {
   @theme {
     /* ---- Colors (LIGHT) ---- */
-    --color-bg-950: #0f1115;
+    --color-bg-950: #f7f7f9;
     --color-ink-900: #0b1324;
-    --color-ink-700: #2b3a55;
-
-    --color-blue-800: #1e3a8a;
+    --color-ink-700: #2c3a52;
     --color-blue-600: #2563eb;
+    --color-blue-800: #1e3a8a;
     --color-blue-500: #3b82f6;
 
     --color-green-500: #22c55e;
@@ -24,22 +21,22 @@
 
     --color-white: #ffffff;
 
-    /* ---- Fonts (optional but nice) ---- */
+    /* ---- Fonts ---- */
     --font-sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
       Arial, "Apple Color Emoji", "Segoe UI Emoji";
     --font-display: ui-serif, "Times New Roman", Georgia, serif;
 
-    /* ---- Spacing scale (optional custom) ---- */
-    --spacing-xs: 0.25rem; /* 4px  → use: p-xs, gap-xs */
-    --spacing-sm: 0.5rem; /* 8px  */
-    --spacing-md: 1rem; /* 16px */
-    --spacing-lg: 1.5rem; /* 24px */
-    --spacing-xl: 2rem; /* 32px */
-    --spacing-2xl: 3rem; /* 48px */
-    --spacing-3xl: 4rem; /* 64px */
-    --spacing-4xl: 6rem; /* 96px */
+    /* ---- Spacing ---- */
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+    --spacing-2xl: 3rem;
+    --spacing-3xl: 4rem;
+    --spacing-4xl: 6rem;
 
-    /* ---- Radii/Shadows (optional) ---- */
+    /* ---- Radii/Shadows ---- */
     --radius-xl: 0.875rem;
     --radius-2xl: 1rem;
     --radius-3xl: 1.25rem;
@@ -48,35 +45,47 @@
   }
 }
 
-/* =========================================
-   DARK THEME OVERRIDES
-   - Toggle by adding .dark on <html> or <body>
-   - You can override only what differs
-   ========================================= */
-.dark {
-  color-scheme: dark;
-  @theme {
-    --color-white: #0f1115; /* surfaces */
-    --color-ink-900: #f8fafc; /* main text */
-    --color-ink-700: #e5e7eb; /* secondary text */
-    --color-card-800: #111827; /* panels */
-  }
+/* DARK overrides (optional) */
+html.dark {
+  --color-bg-950: #0b1220;
+  --color-ink-900: #e5e7eb;
+  --color-ink-700: #cbd5e1;
+  --color-blue-600: #60a5fa;
 }
 
-/* =========================================
+/* ===========================
    Base document styling
-   ========================================= */
+   - Single scroll container: the BODY
+   - Avoid nested scroll on #__next or layout wrappers
+   =========================== */
 html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
   box-sizing: border-box;
 }
+
+html,
+body {
+  /* 👇 key fix: let content grow, do not lock exact height */
+  min-height: 100%;
+  height: auto;
+}
+
+/* Ensure horizontal overflow never creates a second bar */
 html,
 body,
 #__next {
-  height: 100%;
   max-width: 100%;
   overflow-x: hidden;
+}
+
+/* #__next should not be a scroll container */
+#___next {
+  /* guard against typos—won’t match anything */
+}
+#__next {
+  min-height: 100%;
+  overflow: visible;
 }
 
 body {
@@ -85,7 +94,7 @@ body {
   font-feature-settings: "ss01", "cv01";
 }
 
-/* Optional helper container (you already use it) */
+/* Optional helper container */
 .container-x {
   @apply mx-auto px-4 sm:px-6 lg:px-8;
   max-width: 1120px;

@@ -69,8 +69,7 @@ export default function Home() {
       <SEO meta={meta} jsonLd={jsonLd} />
 
       <Hero
-        title={siteStatic?.tagline}
-        subhead="Provider-first flows. Pick a provider, choose a service, and proceed with either a digital brief or an in-person request."
+        subhead={siteStatic?.tagline}
         onSearch={({ q, mode }) => {
           // v0: simple redirect with params. Later: /search?q=&type=
           if (typeof window !== "undefined") {
