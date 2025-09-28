@@ -1,0 +1,54 @@
+[
+  {
+    "id": "svc-1",
+    "title": "Logo package",
+    "subtitle": "Vector source, 3 concepts",
+    "type": "digital",
+    "price_from": 25000,
+    "category_id": "design",
+    "image_url": "/images/placeholder/1.jpg",
+    "featured": true
+  },
+  {
+    "id": "svc-2",
+    "title": "Brand kit",
+    "subtitle": "Fonts, colors, usage guide",
+    "type": "digital",
+    "price_from": 45000,
+    "category_id": "design",
+    "image_url": "/images/placeholder/2.jpg",
+    "featured": true
+  },
+  {
+    "id": "svc-3",
+    "title": "Personal training session",
+    "subtitle": "Strength & mobility",
+    "type": "in_person",
+    "duration_minutes": 60,
+    "price_from": 9000,
+    "category_id": "wellness",
+    "image_url": "/images/placeholder/3.jpg",
+    "featured": true
+  },
+  {
+    "id": "svc-4",
+    "title": "Notary appointment",
+    "subtitle": "Mobile notary visit",
+    "type": "in_person",
+    "duration_minutes": 30,
+    "price_from": 6000,
+    "category_id": "business",
+    "image_url": "/images/placeholder/4.jpg",
+    "featured": true
+  },
+  {
+    "id": "svc-5",
+    "title": "Bug fix task",
+    "subtitle": "Small web issue",
+    "type": "digital",
+    "price_from": 12000,
+    "category_id": "business",
+    "image_url": "/images/placeholder/5.jpg",
+    "featured": false
+  }
+]

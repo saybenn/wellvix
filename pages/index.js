@@ -1,6 +1,19 @@
 import { site as siteStatic } from "../lib/siteConfig";
-import { SEO, getMeta, organizationJsonLd, websiteJsonLd } from "../lib/seo";
+import { SEO, getMeta, websiteJsonLd } from "../lib/seo";
+import Hero from "../components/home/Hero";
+import ExplainerSplit from "../components/home/ExplainerSplit";
+import FeaturedTabs from "../components/home/FeaturedTabs";
+import InPersonGrid from "../components/home/InPersonGrid";
+import FAQSwitch from "../components/home/FAQSwitch";
 
+import categories from "../data/categories.json";
+import services from "../data/services.json";
+
+/**
+ * Home
+ * - Reads data from /data/*.json; swap to Supabase later by replacing imports with fetchers.
+ * - No service-specific strings baked into components; copy comes from data or props here.
+ */
 export default function Home() {
   const meta = getMeta({
     title: siteStatic?.meta?.title,
@@ -9,74 +22,91 @@ export default function Home() {
   });
 
   const jsonLd = [
-    organizationJsonLd({
-      name: siteStatic.brand,
-      url: siteStatic?.meta?.url,
-      logo: siteStatic?.logo?.src,
-    }),
     websiteJsonLd({
       name: siteStatic.brand,
       url: siteStatic?.meta?.url,
     }),
   ];
 
+  // Featured tabs derived from categories + services
+  const makeTab = (cat) => ({
+    id: cat.id,
+    label: cat.name,
+    items: services.filter((s) => s.category_id === cat.id && s.featured),
+  });
+
+  const tabs = categories.map(makeTab);
+
+  const inPersonItems = services
+    .filter((s) => s.type === "in_person")
+    .slice(0, 6);
+
+  const faqData = {
+    customers: [
+      {
+        q: "How are payments handled for packages?",
+        a: "Digital packages use a secure checkout. In-person requests do not require payment in the initial request.",
+      },
+      {
+        q: "Can I choose a specific provider?",
+        a: "Yes. You select a provider first, then choose one of their services.",
+      },
+    ],
+    freelancers: [
+      {
+        q: "How do I get listed?",
+        a: "Complete your profile and at least one active service, then submit for approval.",
+      },
+      {
+        q: "Can I set my own schedule?",
+        a: "Yes. Add weekly availability windows and update them anytime.",
+      },
+    ],
+  };
+
   return (
     <>
       <SEO meta={meta} jsonLd={jsonLd} />
 
-      <section className="bg-bg-950 text-white">
-        <div className="container-x py-24">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold">
-            {siteStatic.tagline}
-          </h1>
-          <p className="mt-4 text-white/70 max-w-2xl">
-            Provider-centric marketplace foundation. Booking windows for
-            in-person work, Stripe Checkout for digital tiers. Admin approval,
-            Provider dashboard, SEO + JSON-LD, GA4.
-          </p>
-          <div className="mt-8 flex gap-3">
-            <a
-              href="/signup"
-              className="inline-flex items-center rounded-xl bg-blue-600 text-white px-5 py-2.5 hover:bg-blue-500"
-            >
-              Get started
-            </a>
-            <a
-              href="/providers"
-              className="inline-flex items-center rounded-xl border border-white/20 text-white px-5 py-2.5 hover:border-white/40"
-            >
-              Browse providers
-            </a>
-          </div>
-        </div>
-      </section>
+      <Hero
+        title={siteStatic?.tagline}
+        subhead="Provider-first flows. Pick a provider, choose a service, and proceed with either a digital brief or an in-person request."
+        onSearch={({ q, mode }) => {
+          // v0: simple redirect with params. Later: /search?q=&type=
+          if (typeof window !== "undefined") {
+            const params = new URLSearchParams();
+            if (q) params.set("q", q);
+            if (mode) params.set("type", mode);
+            window.location.href = `/search?${params.toString()}`;
+          }
+        }}
+      />
 
-      <section>
-        <div className="container-x py-16 grid gap-6 md:grid-cols-3">
-          {[
-            {
-              t: "Provider-first",
-              d: "Users book a specific provider. Availability windows gate in-person requests.",
-            },
-            {
-              t: "Digital tiers",
-              d: "Stripe Checkout for fixed-scope offerings and add-ons.",
-            },
-            {
-              t: "Ship to Supabase",
-              d: "Start with /data/*.json; migrate reads/writes with minimal surface change.",
-            },
-          ].map((card) => (
-            <div
-              key={card.t}
-              className="rounded-2xl border border-muted-400/30 p-6 bg-white"
-            >
-              <h3 className="font-semibold text-ink-900">{card.t}</h3>
-              <p className="mt-2 text-ink-700">{card.d}</p>
-            </div>
-          ))}
-        </div>
-      </section>
+      <ExplainerSplit heading="Two systems, one place" />
+
+      <FeaturedTabs
+        heading="Featured"
+        tabs={tabs}
+        onCta={(item) => {
+          // In real app, route to provider/service detail.
+          // Here we just no-op or log. Replace with Next router when detail pages exist.
+          if (typeof window !== "undefined") {
+            console.log("Featured view", item);
+          }
+        }}
+      />
+
+      <InPersonGrid
+        heading="In-person highlights"
+        items={inPersonItems}
+        onView={(it) => {
+          if (typeof window !== "undefined") {
+            console.log("In-person view", it);
+          }
+        }}
+      />
+
+      <FAQSwitch heading="Questions" tabs={faqData} />
     </>
   );
 }
