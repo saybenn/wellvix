@@ -1,0 +1,58 @@
+[
+  {
+    "id": "prov_1",
+    "slug": "alpha-studio",
+    "display_name": "Alpha Studio",
+    "tagline": "Design & brand systems",
+    "avatar_url": "/images/providers/alpha.png",
+    "rating": 4.9,
+    "reviews_count": 128,
+    "city": "Jacksonville",
+    "state": "FL",
+    "country": "US",
+    "about": [
+      "Independent studio focusing on identity systems and lean web assets.",
+      "Fast communication, clean delivery files, and clear scopes."
+    ],
+    "reviews": [
+      {
+        "author": "Kelsey R.",
+        "rating": 5,
+        "comment": "Understood the brief immediately. Final files were organized and on-brand."
+      },
+      {
+        "author": "D. Patel",
+        "rating": 5,
+        "comment": "Crisp logo set and social kit. Would hire again."
+      }
+    ]
+  },
+  {
+    "id": "prov_2",
+    "slug": "fit-coach",
+    "display_name": "Fit Coach",
+    "tagline": "Personal training & mobility",
+    "avatar_url": "/images/providers/fit.png",
+    "rating": 4.8,
+    "reviews_count": 76,
+    "city": "Norfolk",
+    "state": "VA",
+    "country": "US",
+    "about": [
+      "Certified trainer helping clients build strength and stay consistent.",
+      "Flexible scheduling with clear progress check-ins."
+    ],
+    "reviews": [
+      {
+        "author": "Marina T.",
+        "rating": 5,
+        "comment": "Great programming and form feedback. Sessions are efficient."
+      },
+      {
+        "author": "Alex P.",
+        "rating": 4,
+        "comment": "Helpful mobility work and realistic goals."
+      }
+    ]
+  }
+]

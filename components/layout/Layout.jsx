@@ -8,7 +8,7 @@ export default function Layout({ site, children }) {
   const brand = { logo };
 
   return (
-    <div className="min-h-screen flex flex-col bg-white">
+    <div className=" flex flex-col bg-white">
       <Header brand={brand} nav={nav} />
       <main className="flex-1">{children}</main>
       <Footer footer={footer} />
