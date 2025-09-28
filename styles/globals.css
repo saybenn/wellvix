@@ -1,26 +1,101 @@
 @import "tailwindcss";
 
+/* =========================================
+   Tailwind v4 Tokens via @theme (REQUIRED)
+   - In v4, design tokens live here, not in tailwind.config.js
+   - Any --color-* becomes a class like text-*, bg-*, border-*
+   ========================================= */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+  @theme {
+    /* ---- Colors (LIGHT) ---- */
+    --color-bg-950: #0f1115;
+    --color-ink-900: #0b1324;
+    --color-ink-700: #2b3a55;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+    --color-blue-800: #1e3a8a;
+    --color-blue-600: #2563eb;
+    --color-blue-500: #3b82f6;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --color-green-500: #22c55e;
+
+    --color-muted-400: #94a3b8;
+
+    --color-card-800: #1f2937;
+
+    --color-white: #ffffff;
+
+    /* ---- Fonts (optional but nice) ---- */
+    --font-sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
+      Arial, "Apple Color Emoji", "Segoe UI Emoji";
+    --font-display: ui-serif, "Times New Roman", Georgia, serif;
+
+    /* ---- Spacing scale (optional custom) ---- */
+    --spacing-xs: 0.25rem; /* 4px  → use: p-xs, gap-xs */
+    --spacing-sm: 0.5rem; /* 8px  */
+    --spacing-md: 1rem; /* 16px */
+    --spacing-lg: 1.5rem; /* 24px */
+    --spacing-xl: 2rem; /* 32px */
+    --spacing-2xl: 3rem; /* 48px */
+    --spacing-3xl: 4rem; /* 64px */
+    --spacing-4xl: 6rem; /* 96px */
+
+    /* ---- Radii/Shadows (optional) ---- */
+    --radius-xl: 0.875rem;
+    --radius-2xl: 1rem;
+    --radius-3xl: 1.25rem;
+    --shadow-card: 0 10px 30px rgba(0, 0, 0, 0.2);
+    --shadow-soft: 0 6px 18px rgba(0, 0, 0, 0.12);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* =========================================
+   DARK THEME OVERRIDES
+   - Toggle by adding .dark on <html> or <body>
+   - You can override only what differs
+   ========================================= */
+.dark {
+  color-scheme: dark;
+  @theme {
+    --color-white: #0f1115; /* surfaces */
+    --color-ink-900: #f8fafc; /* main text */
+    --color-ink-700: #e5e7eb; /* secondary text */
+    --color-card-800: #111827; /* panels */
+  }
 }
+
+/* =========================================
+   Base document styling
+   ========================================= */
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  box-sizing: border-box;
+}
+html,
+body,
+#__next {
+  height: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  @apply text-ink-900 bg-white;
+  font-family: var(--font-sans);
+  font-feature-settings: "ss01", "cv01";
+}
+
+/* Optional helper container (you already use it) */
+.container-x {
+  @apply mx-auto px-4 sm:px-6 lg:px-8;
+  max-width: 1120px;
+}
+
+/* Focus style */
+:where(a, button, [role="button"]) {
+  outline: none;
+}
+:where(a, button, [role="button"]):focus-visible {
+  @apply ring-2 ring-blue-600 ring-offset-2 ring-offset-white;
+}
+
