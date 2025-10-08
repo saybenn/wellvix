@@ -46,7 +46,6 @@ export default function ServiceList({
                     From ${(svc.price_from / 100).toFixed(0)}
                   </p>
                 ) : null}
-
                 <div className="mt-4">
                   <Link
                     href={`/p/${providerSlug}/s/${svc.slug}`}

@@ -1,107 +1,96 @@
 [
   {
-    "id": "svc_logo",
-    "provider_id": "prov_1",
+    "id": "svc-logo-basic",
+    "provider_id": "prov-alpha",
+    "category_id": "cat-design",
     "slug": "logo-package",
-    "title": "Logo package",
+    "title": "Logo Package",
     "type": "digital",
-    "price_from": 25000,
+    "description": "Primary logo, lockups, and usage guidelines.",
+    "price_from": 50000,
     "duration_minutes": null,
-    "description": "Identity starter with concept exploration and vector delivery.",
-    "what_you_get": ["3 concepts", "2 revisions", "Vector & export kit"],
-    "faq": [
-      { "q": "How many revisions?", "a": "Two revision rounds are included." },
-      { "q": "Delivery format?", "a": "Vector AI/SVG and PNG exports." }
-    ],
-    "image_url": "/images/services/logo.jpg",
-    "active": true
-  },
-  {
-    "id": "svc_brandkit",
-    "provider_id": "prov_1",
-    "slug": "brand-kit",
-    "title": "Brand kit",
-    "type": "digital",
-    "price_from": 45000,
-    "duration_minutes": null,
-    "description": "Core brand guide with color, type, and usage notes.",
-    "what_you_get": ["Palette & typography", "Logo lockups", "Usage PDF"],
-    "faq": [
-      {
-        "q": "Can you include templates?",
-        "a": "Template add-ons can be scoped separately."
-      }
-    ],
-    "image_url": "/images/services/brandkit.jpg",
-    "active": true
-  },
-  {
-    "id": "svc_bugfix",
-    "provider_id": "prov_1",
-    "slug": "bug-fix",
-    "title": "Bug fix task",
-    "type": "digital",
-    "price_from": 12000,
-    "duration_minutes": null,
-    "description": "Small web issue triage with concise report.",
-    "what_you_get": ["One issue fix", "Before/after note", "Next steps"],
-    "faq": [
-      {
-        "q": "What qualifies as 'small'?",
-        "a": "Up to ~1 hour of effort; more becomes a separate scope."
-      }
-    ],
-    "image_url": "/images/services/bugfix.jpg",
-    "active": true
-  },
-  {
-    "id": "svc_pt60",
-    "provider_id": "prov_2",
-    "slug": "personal-training-60",
-    "title": "Personal training — 60 min",
-    "type": "in_person",
-    "price_from": 9000,
-    "duration_minutes": 60,
-    "description": "Strength & conditioning session with personalized focus.",
+    "lead_time_days": 7,
+    "image_url": "/images/logo-kit.jpg",
+    "is_active": true,
     "what_you_get": [
-      "Warm-up & activation",
-      "Main lifts",
-      "Cool-down guidance"
-    ],
-    "faq": [{ "q": "Location?", "a": "Local gym or client-approved space." }],
-    "image_url": "/images/services/pt60.jpg",
-    "active": true
+      "3 initial concepts",
+      "2 rounds of revisions",
+      "Finals: SVG/PNG/PDF"
+    ]
   },
   {
-    "id": "svc_mobility",
-    "provider_id": "prov_2",
-    "slug": "mobility-tuneup",
-    "title": "Mobility tune-up — 45 min",
-    "type": "in_person",
-    "price_from": 7000,
-    "duration_minutes": 45,
-    "description": "Targeted mobility work for common sticking points.",
-    "what_you_get": ["Movement screen", "Priority drills", "At-home plan"],
-    "faq": [
-      { "q": "Equipment?", "a": "Minimal; bands/mats provided as needed." }
-    ],
-    "image_url": "/images/services/mobility.jpg",
-    "active": true
+    "id": "svc-brand-kit",
+    "provider_id": "prov-alpha",
+    "category_id": "cat-design",
+    "slug": "brand-kit",
+    "title": "Brand Kit",
+    "type": "digital",
+    "description": "Typography, color system, component library.",
+    "price_from": 120000,
+    "duration_minutes": null,
+    "lead_time_days": 14,
+    "image_url": "/images/brand-kit.jpg",
+    "is_active": true,
+    "what_you_get": ["Color + type tokens", "Usage guide PDF", "Figma library"]
   },
   {
-    "id": "svc_yoga",
-    "provider_id": "prov_2",
-    "slug": "yoga-session",
-    "title": "Yoga session — 60 min",
+    "id": "svc-train-60",
+    "provider_id": "prov-blend",
+    "category_id": "cat-wellness",
+    "slug": "personal-training-60",
+    "title": "Personal Training — 60 min",
     "type": "in_person",
-    "price_from": 8000,
+    "description": "1:1 strength training session with programming notes.",
+    "price_from": 12000,
     "duration_minutes": 60,
-    "description": "Guided session adapted to your level.",
-    "what_you_get": ["Breath work", "Sequenced flow", "Relaxation"],
-    "faq": [
-      { "q": "Group option?", "a": "Yes—small group sessions can be arranged." }
-    ],
-    "image_url": "/images/services/yoga.jpg",
-    "active": true
+    "lead_time_days": 1,
+    "image_url": "/images/training.jpg",
+    "is_active": true,
+    "what_you_get": ["Warm-up + main lifts", "Form coaching", "Recovery plan"]
+  },
+  {
+    "id": "svc-recovery-45",
+    "provider_id": "prov-blend",
+    "category_id": "cat-wellness",
+    "slug": "recovery-session-45",
+    "title": "Recovery Session — 45 min",
+    "type": "in_person",
+    "description": "Mobility, tissue work, and guided recovery.",
+    "price_from": 9000,
+    "duration_minutes": 45,
+    "lead_time_days": 1,
+    "image_url": "/images/recovery.jpg",
+    "is_active": true,
+    "what_you_get": ["Mobility flow", "Soft tissue work", "Recovery routine"]
+  },
+  {
+    "id": "svc-bugfix",
+    "provider_id": "prov-alpha",
+    "category_id": "cat-dev",
+    "slug": "bug-fix",
+    "title": "Bug Fix (Web/App)",
+    "type": "digital",
+    "description": "Quick turn-around bug fix for web or app.",
+    "price_from": 30000,
+    "duration_minutes": null,
+    "lead_time_days": 2,
+    "image_url": "/images/bugfix.jpg",
+    "is_active": true,
+    "what_you_get": ["Issue triage", "Patch + PR", "Post-fix notes"]
+  },
+  {
+    "id": "svc-photo-shoot",
+    "provider_id": "prov-alpha",
+    "category_id": "cat-photo",
+    "slug": "photo-shoot",
+    "title": "Photo Shoot — 2 hours",
+    "type": "in_person",
+    "description": "On-location portrait session.",
+    "price_from": 25000,
+    "duration_minutes": 120,
+    "lead_time_days": 3,
+    "image_url": "/images/photoshoot.jpg",
+    "is_active": true,
+    "what_you_get": ["Shot list", "Color-corrected selects", "Private gallery"]
   }
 ]

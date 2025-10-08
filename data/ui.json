@@ -1,0 +1,12 @@
+{
+  "auth": {
+    "signInTitle": "Access your account",
+    "signInSubtitle": "Use your email and we’ll send a secure sign-in link.",
+    "emailLabel": "Email address",
+    "emailPlaceholder": "you@example.com",
+    "sendLink": "Send magic link",
+    "checkInbox": "Check your inbox for the sign-in link.",
+    "errorGeneric": "Something went wrong. Please try again.",
+    "signOut": "Sign out"
+  }
+}

@@ -13,7 +13,6 @@ export default function ProfileHeader({ provider }) {
       <div className="container-x py-8 flex items-center gap-4">
         {provider.avatar_url ? (
           <div className="h-16 w-16 overflow-hidden rounded-full bg-card-800">
-            {/* Using next/image for perf; fallback to <img> if needed */}
             <Image
               src={provider.avatar_url}
               alt=""
@@ -52,13 +51,13 @@ export default function ProfileHeader({ provider }) {
             {provider.reviews_count ? (
               <span>• {provider.reviews_count} reviews</span>
             ) : null}
-            {provider.city || provider.state ? (
+            {(provider.city || provider.state) && (
               <span>
                 • {provider.city}
                 {provider.city && provider.state ? ", " : ""}
                 {provider.state}
               </span>
-            ) : null}
+            )}
           </div>
         </div>
       </div>

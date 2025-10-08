@@ -1,0 +1,14 @@
+[
+  {
+    "provider_id": "prov-blend",
+    "weekday": 1,
+    "start_time": "09:00",
+    "end_time": "12:00"
+  },
+  {
+    "provider_id": "prov-blend",
+    "weekday": 3,
+    "start_time": "14:00",
+    "end_time": "18:00"
+  }
+]

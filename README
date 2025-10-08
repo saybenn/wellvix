@@ -1,0 +1,367 @@
+// prisma/schema.prisma
+// Truth-mode note:
+// - Use this as the canonical domain schema and for local dev.
+// - In production on Supabase, prefer SQL migrations and the Supabase JS client for user-scoped data (RLS).
+// - Prisma can be used for admin jobs/cron safely with a restricted key.
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL") // For local dev; Supabase uses its own connection string in CI/CD.
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  client
+  provider
+  admin
+
+  @@map("user_role")
+}
+
+enum ServiceType {
+  digital
+  in_person
+}
+
+enum OrderStatus {
+  draft
+  paid
+  in_progress
+  delivered
+  completed
+  refunded
+  cancelled
+}
+
+enum FileRole {
+  client
+  provider
+}
+
+enum BookingStatus {
+  requested
+  confirmed
+  completed
+  cancelled
+}
+
+enum DisputeStatus {
+  open
+  resolved_refund
+  resolved_release
+  dismissed
+}
+
+enum Plan {
+  free
+  elite
+}
+
+enum SubscriptionStatus {
+  active
+  canceled
+  incomplete
+}
+
+model Profile {
+  id         String   @id @db.Uuid()        // ❗ no @default(uuid())
+  fullName   String?
+  avatarUrl  String?
+  role       Role     @default(client) 
+  createdAt  DateTime @default(now())
+
+  providers  Provider[]
+
+  @@index([role])
+  @@map("profiles")                          // map to public.profiles table
+}
+
+
+model Provider {
+  id          String    @id @default(uuid())
+  profileId   String?   // optional until auth wired
+  profile     Profile?  @relation(fields: [profileId], references: [id])
+  slug        String    @unique
+  displayName String
+  tagline     String?
+  bio         String?
+  rating      Float?    // computed aggregate; nullable until first review
+  city        String?
+  state       String?
+  country     String?
+  isApproved  Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+
+  // Relations
+  services    ProviderService[]
+  orders      Order[]   @relation("ProviderOrders")
+  bookings    Booking[] @relation("ProviderBookings")
+  availability ProviderAvailability[]
+  reviews     Review[]  @relation("ProviderReviews")
+  tags        ProviderTag[]
+  rank        ProviderRank?
+  calendars   ProviderCalendarAccount[]
+  busy        ProviderBusyWindow[]
+  subscriptions Subscription[]
+  metrics ProviderMetricsDaily[]
+
+  @@index([isApproved])
+  @@index([city, state, country])
+}
+
+model Category {
+  id    String @id @default(uuid())
+  slug  String @unique
+  name  String
+
+  services ProviderService[]
+}
+
+model ProviderService {
+  id              String      @id @default(uuid())
+  providerId      String
+  categoryId      String?
+  provider        Provider    @relation(fields: [providerId], references: [id])
+  category        Category?   @relation(fields: [categoryId], references: [id])
+
+  slug            String
+  title           String
+  type            ServiceType
+  description     String?
+  priceFrom       Int?        // cents
+  durationMinutes Int?        // in-person only
+  leadTimeDays    Int?        // digital or in-person logistics
+  imageUrl        String?
+  isActive        Boolean     @default(true)
+  bookingBufferMin Int?       @default(15)
+
+  // Relations
+  orders          Order[]
+  bookings        Booking[]
+  tags            ServiceTag[]
+
+  @@unique([providerId, slug])
+  @@index([type, isActive])
+}
+
+model Order {
+  id                String       @id @default(uuid())
+  clientId          String?      // Profile.id (later via auth)
+  providerId        String
+  providerServiceId String
+  provider          Provider     @relation("ProviderOrders", fields: [providerId], references: [id])
+  service           ProviderService @relation(fields: [providerServiceId], references: [id])
+
+  status            OrderStatus  @default(draft)
+  brief             Json?
+  priceCents        Int?
+  stripeCheckoutId  String?
+  eta               DateTime?
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime     @updatedAt
+
+  files             OrderFile[]
+  review            Review?
+  dispute           Dispute?
+agreement Agreement?
+  @@index([status])
+  @@index([providerId, providerServiceId])
+}
+
+model OrderFile {
+  id        String   @id @default(uuid())
+  orderId   String
+  order     Order    @relation(fields: [orderId], references: [id])
+  role      FileRole
+  fileUrl   String
+  createdAt DateTime @default(now())
+
+  @@index([orderId, role])
+}
+
+model Booking {
+  id                String        @id @default(uuid())
+  clientId          String?
+  providerId        String
+  providerServiceId String
+  provider          Provider      @relation("ProviderBookings", fields: [providerId], references: [id])
+  service           ProviderService @relation(fields: [providerServiceId], references: [id])
+
+  status            BookingStatus @default(requested)
+  requestedAt       DateTime      @default(now())
+  confirmedAt       DateTime?
+  scheduledStart    DateTime?
+  scheduledEnd      DateTime?
+  note              String?
+
+  @@index([status])
+  @@index([providerId, scheduledStart, scheduledEnd])
+}
+
+model ProviderAvailability {
+  id        String  @id @default(uuid())
+  providerId String
+  provider   Provider @relation(fields: [providerId], references: [id])
+  weekday   Int      // 0=Sun ... 6=Sat
+  startTime String   // '09:00' local
+  endTime   String   // '17:00' local
+
+  @@unique([providerId, weekday, startTime, endTime])
+  @@index([weekday])
+}
+
+model Review {
+  id         String   @id @default(uuid())
+  orderId    String   @unique
+  order      Order    @relation(fields: [orderId], references: [id])
+  clientId   String?
+  providerId String
+  provider   Provider @relation("ProviderReviews", fields: [providerId], references: [id])
+  stars      Int
+  comment    String?
+  createdAt  DateTime @default(now())
+
+  @@index([providerId, stars])
+}
+
+model Message {
+  id        String   @id @default(uuid())
+  threadId  String   // e.g., "order:ord_123" or "booking:bk_123"
+  fromId    String?
+  toId      String?
+  content   String
+  files     Json?
+  createdAt DateTime @default(now())
+
+  @@index([threadId, createdAt])
+}
+
+model Dispute {
+  id         String        @id @default(uuid())
+  orderId    String        @unique
+  order      Order         @relation(fields: [orderId], references: [id])
+  openedById String?
+  reason     String
+  status     DisputeStatus @default(open)
+  adminNotes String?
+  createdAt  DateTime      @default(now())
+  resolvedAt DateTime?
+}
+
+model Subscription {
+  id                   String              @id @default(uuid())
+  providerId           String
+  provider             Provider            @relation(fields: [providerId], references: [id])
+  plan                 Plan                @default(free)
+  status               SubscriptionStatus  @default(incomplete)
+  stripeCustomerId     String?
+  stripeSubscriptionId String?
+  currentPeriodEnd     DateTime?
+
+  @@index([providerId, status])
+}
+
+model Agreement {
+  id           String   @id @default(uuid())
+  orderId      String   @unique
+  order        Order    @relation(fields: [orderId], references: [id])
+  templateId   String
+  clientSigUrl String?
+  providerSigUrl String?
+  pdfUrl       String?
+  createdAt    DateTime @default(now())
+}
+
+// TAGGING
+model Tag {
+  id    String @id @default(uuid())
+  slug  String @unique
+  label String
+  kind  String // 'category' | 'skill' | 'hashtag'
+
+  providers ProviderTag[]
+  services  ServiceTag[]
+}
+
+model ProviderTag {
+  providerId String
+  tagId      String
+  provider   Provider @relation(fields: [providerId], references: [id])
+  tag        Tag      @relation(fields: [tagId], references: [id])
+
+  @@id([providerId, tagId])
+}
+
+model ServiceTag {
+  providerServiceId String
+  tagId             String
+  service           ProviderService @relation(fields: [providerServiceId], references: [id])
+  tag               Tag             @relation(fields: [tagId], references: [id])
+
+  @@id([providerServiceId, tagId])
+}
+
+// RANKING (Phase-2 ready; safe to keep enabled; you can comment out if you want ultra-minimal)
+model ProviderMetricsDaily {
+  providerId   String
+  day          DateTime
+  bookingsCount  Int      @default(0)
+  completedCount Int      @default(0)
+  avgReview    Float?
+  responseMs   Int?
+  revenueCents Int       @default(0)
+  xpDelta      Int       @default(0)
+  provider     Provider  @relation(fields: [providerId], references: [id])
+
+  @@id([providerId, day])
+}
+
+model ProviderRank {
+  providerId String  @id
+  provider   Provider @relation(fields: [providerId], references: [id])
+  tier       String   @default("New") // 'New','Verified','Pro','Expert','Elite'
+  score      Float    @default(0)
+  xpTotal    Int      @default(0)
+  badges     String[] @default([])
+  updatedAt  DateTime @default(now())
+}
+
+// SMART SCHEDULING (Phase-2 ready; can be left as is)
+model ProviderCalendarAccount {
+  id         String   @id @default(uuid())
+  providerId String
+  provider   Provider @relation(fields: [providerId], references: [id])
+  providerName String // 'google' | 'outlook' | 'apple_caldav'
+  oauthJson  Json
+  status     String   @default("active")
+  createdAt  DateTime @default(now())
+
+  @@index([providerId, providerName])
+}
+
+model ProviderBusyWindow {
+  id         String   @id @default(uuid())
+  providerId String
+  provider   Provider @relation(fields: [providerId], references: [id])
+  source     String   // 'google' | 'local'
+  startAt    DateTime
+  endAt      DateTime
+  createdAt  DateTime @default(now())
+
+  @@index([providerId, startAt, endAt])
+}
+
+// Optional: Notifications table (Phase-1/2 event mirror)
+model Notification {
+  id        String   @id @default(uuid())
+  profileId String?
+  channel   String   // 'email' | 'sms' | 'inapp'
+  name      String   // event name
+  payload   Json?
+  createdAt DateTime @default(now())
+
+  @@index([profileId, channel, name])
+}

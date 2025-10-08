@@ -1,5 +1,11 @@
 [
-  { "id": "design", "name": "Design & Creative" },
-  { "id": "wellness", "name": "Wellness" },
-  { "id": "business", "name": "Business Services" }
+  {
+    "id": "cat-design",
+    "slug": "design-creative",
+    "name": "Design & Creative"
+  },
+  { "id": "cat-dev", "slug": "development-it", "name": "Development & IT" },
+  { "id": "cat-wellness", "slug": "wellness", "name": "Wellness" },
+  { "id": "cat-notary", "slug": "mobile-notary", "name": "Mobile Notary" },
+  { "id": "cat-photo", "slug": "photography", "name": "Photography" }
 ]

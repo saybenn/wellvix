@@ -3,12 +3,16 @@ import { useState } from "react";
 /**
  * SearchBar
  * - Emits onSubmit(query)
- * - In v0 it's local-only; swap to Supabase or server search later.
+ * - Now supports optional styling overrides for integration (e.g., Hero).
  */
 export default function SearchBar({
   placeholder = "Find a provider or service…",
   onSubmit = () => {},
   defaultValue = "",
+  containerClassName = "",
+  inputClassName = "",
+  buttonClassName = "",
+  iconClassName = "",
 }) {
   const [q, setQ] = useState(defaultValue);
 
@@ -22,12 +26,17 @@ export default function SearchBar({
       role="search"
       aria-label="Global Search"
     >
-      <div className="flex items-center gap-2 rounded-2xl bg-white border border-muted-400/40 shadow-[0_6px_24px_rgba(0,0,0,.08)] px-3 py-2">
+      <div
+        className={[
+          "flex items-center gap-2 rounded-2xl bg-white border border-muted-400/40 shadow-[0_6px_24px_rgba(0,0,0,.08)] px-3 py-2",
+          containerClassName,
+        ].join(" ")}
+      >
         <svg
           width="18"
           height="18"
           viewBox="0 0 24 24"
-          className="text-ink-700"
+          className={["text-ink-700", iconClassName].join(" ").trim()}
           aria-hidden="true"
         >
           <path
@@ -39,12 +48,18 @@ export default function SearchBar({
           value={q}
           onChange={(e) => setQ(e.target.value)}
           placeholder={placeholder}
-          className="w-full bg-transparent outline-none text-ink-900 placeholder:text-ink-700/60"
+          className={[
+            "w-full bg-transparent outline-none text-ink-900 placeholder:text-ink-700/60",
+            inputClassName,
+          ].join(" ")}
           aria-label={placeholder}
         />
         <button
           type="submit"
-          className="inline-flex items-center rounded-xl bg-blue-600 text-white px-4 py-2 text-sm hover:bg-blue-500 transition"
+          className={[
+            "inline-flex items-center rounded-xl bg-blue-600 text-white px-4 py-2 text-sm hover:bg-blue-500 transition",
+            buttonClassName,
+          ].join(" ")}
           data-cta="search"
         >
           Search
