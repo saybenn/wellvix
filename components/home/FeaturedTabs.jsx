@@ -3,7 +3,7 @@ import { useState } from "react";
 /**
  * FeaturedTabs
  * - Provide tabs (e.g., Design, Wellness, Business)
- * - Items are passed in via props (already filtered for 'digital' or 'in_person' upstream)
+ * - Items are passed in via props (already filtered upstream).
  */
 export default function FeaturedTabs({
   heading = "Featured",
@@ -11,7 +11,6 @@ export default function FeaturedTabs({
   onCta = () => {},
 }) {
   const [active, setActive] = useState(tabs[0]?.id);
-
   const current = tabs.find((t) => t.id === active) ?? { items: [] };
 
   return (
@@ -47,7 +46,6 @@ export default function FeaturedTabs({
               className="rounded-2xl border border-muted-400/30 bg-white overflow-hidden"
             >
               {it.image_url ? (
-                // Using plain img to keep this repo minimal; swap to next/image later.
                 <img
                   src={it.image_url}
                   alt=""

@@ -3,6 +3,7 @@ import { useId } from "react";
 /**
  * SegmentedToggle
  * - Generic, no service-specific strings. Labels provided via props.
+ * - Accepts optional className for outer wrapper (so parents can style).
  */
 export default function SegmentedToggle({
   value = "digital",
@@ -11,11 +12,17 @@ export default function SegmentedToggle({
     { id: "digital", label: "Digital" },
     { id: "in_person", label: "In-person" },
   ],
+  className = "",
 }) {
   const groupId = useId();
 
   return (
-    <div className="inline-flex rounded-full bg-white border border-muted-400/40 p-1 shadow-sm">
+    <div
+      className={[
+        "inline-flex rounded-full bg-white border border-muted-400/40 p-1 shadow-sm",
+        className,
+      ].join(" ")}
+    >
       {segments.map((seg) => {
         const active = value === seg.id;
         return (

@@ -1,0 +1,8 @@
+{
+  "public": ["/", "/auth/sign-in", "/auth/callback", "/api/*", "/favicon.ico"],
+  "authRequired": ["/account", "/provider/*", "/admin/*"],
+  "roleRequired": {
+    "/provider/*": ["provider", "admin"],
+    "/admin/*": ["admin"]
+  }
+}

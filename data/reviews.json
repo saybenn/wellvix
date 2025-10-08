@@ -1,0 +1,18 @@
+[
+  {
+    "id": "rev-1",
+    "order_id": "ord-demo-1",
+    "client_id": "cli-1",
+    "provider_id": "prov-alpha",
+    "stars": 5,
+    "comment": "Fast and high quality."
+  },
+  {
+    "id": "rev-2",
+    "order_id": "ord-demo-2",
+    "client_id": "cli-2",
+    "provider_id": "prov-blend",
+    "stars": 5,
+    "comment": "Great coaching and clear plan!"
+  }
+]

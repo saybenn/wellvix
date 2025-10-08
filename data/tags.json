@@ -1,0 +1,27 @@
+[
+  {
+    "id": "tag-branding",
+    "slug": "branding",
+    "label": "Branding",
+    "kind": "skill"
+  },
+  { "id": "tag-logo", "slug": "logo", "label": "Logo", "kind": "skill" },
+  {
+    "id": "tag-startup",
+    "slug": "startup",
+    "label": "Startup",
+    "kind": "hashtag"
+  },
+  {
+    "id": "tag-fitness",
+    "slug": "fitness",
+    "label": "Fitness",
+    "kind": "category"
+  },
+  {
+    "id": "tag-recovery",
+    "slug": "recovery",
+    "label": "Recovery",
+    "kind": "skill"
+  }
+]

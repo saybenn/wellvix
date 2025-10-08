@@ -3,46 +3,44 @@
 /* ===========================
    Tailwind v4 Tokens via @theme
    =========================== */
-:root {
-  @theme {
-    /* ---- Colors (LIGHT) ---- */
-    --color-bg-950: #f7f7f9;
-    --color-ink-900: #0b1324;
-    --color-ink-700: #2c3a52;
-    --color-blue-600: #2563eb;
-    --color-blue-800: #1e3a8a;
-    --color-blue-500: #3b82f6;
+@theme {
+  /* ---- Colors (LIGHT) ---- */
+  --color-bg-950: #f7f7f9;
+  --color-ink-900: #0b1324;
+  --color-ink-700: #2c3a52;
+  --color-blue-600: #2563eb;
+  --color-blue-800: #1e3a8a;
+  --color-blue-500: #3b82f6;
 
-    --color-green-500: #22c55e;
+  --color-green-500: #22c55e;
 
-    --color-muted-400: #94a3b8;
+  --color-muted-400: #94a3b8;
 
-    --color-card-800: #1f2937;
+  --color-card-800: #1f2937;
 
-    --color-white: #ffffff;
+  --color-white: #ffffff;
 
-    /* ---- Fonts ---- */
-    --font-sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
-      Arial, "Apple Color Emoji", "Segoe UI Emoji";
-    --font-display: ui-serif, "Times New Roman", Georgia, serif;
+  /* ---- Fonts ---- */
+  --font-sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial,
+    "Apple Color Emoji", "Segoe UI Emoji";
+  --font-display: ui-serif, "Times New Roman", Georgia, serif;
 
-    /* ---- Spacing ---- */
-    --spacing-xs: 0.25rem;
-    --spacing-sm: 0.5rem;
-    --spacing-md: 1rem;
-    --spacing-lg: 1.5rem;
-    --spacing-xl: 2rem;
-    --spacing-2xl: 3rem;
-    --spacing-3xl: 4rem;
-    --spacing-4xl: 6rem;
+  /* ---- Spacing ---- */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-2xl: 3rem;
+  --spacing-3xl: 4rem;
+  --spacing-4xl: 6rem;
 
-    /* ---- Radii/Shadows ---- */
-    --radius-xl: 0.875rem;
-    --radius-2xl: 1rem;
-    --radius-3xl: 1.25rem;
-    --shadow-card: 0 10px 30px rgba(0, 0, 0, 0.2);
-    --shadow-soft: 0 6px 18px rgba(0, 0, 0, 0.12);
-  }
+  /* ---- Radii/Shadows ---- */
+  --radius-xl: 0.875rem;
+  --radius-2xl: 1rem;
+  --radius-3xl: 1.25rem;
+  --shadow-card: 0 10px 30px rgba(0, 0, 0, 0.2);
+  --shadow-soft: 0 6px 18px rgba(0, 0, 0, 0.12);
 }
 
 /* DARK overrides (optional) */
