@@ -66,6 +66,14 @@ enum SubscriptionStatus {
   incomplete
 }
 
+// NEW: refund state kept separate from work status
+enum RefundStatus {
+  none
+  requested
+  partial
+  refunded
+}
+
 model Profile {
   id         String   @id @db.Uuid()        // ❗ no @default(uuid())
   fullName   String?
@@ -79,41 +87,43 @@ model Profile {
   @@map("profiles")                          // map to public.profiles table
 }
 
-
 model Provider {
-  id            String    @id @default(uuid())
-  profileId     String?
-  profile       Profile?  @relation(fields: [profileId], references: [id])
-  slug          String    @unique
-  displayName   String
-  tagline       String?
-  bio           String?
-  rating        Float?
-  city          String?
-  state         String?
-  country       String?
-  isApproved    Boolean   @default(false)
-  createdAt     DateTime  @default(now())
+  id                   String    @id @default(uuid())
+  profileId            String?   // optional until auth wired
+  profile              Profile?  @relation(fields: [profileId], references: [id])
+  slug                 String    @unique
+  displayName          String
+  tagline              String?
+  bio                  String?
+  rating               Float?    // computed aggregate; nullable until first review
+  city                 String?
+  state                String?
+  country              String?
+  isApproved           Boolean   @default(false)
+  createdAt            DateTime  @default(now())
 
-  // NEW: Stripe Connect account id (acct_...)
-  stripeAccountId String? @db.VarChar(255)
-  stripeReady   Boolean     @default(false) //onboarding completed
-  onboardingCompleteAt  DateTime?
-  defaultCurrency   String?     @default("usd")
-  services      ProviderService[]
-  orders        Order[]   @relation("ProviderOrders")
-  bookings      Booking[] @relation("ProviderBookings")
-  availability  ProviderAvailability[]
-  reviews       Review[]  @relation("ProviderReviews")
-  tags          ProviderTag[]
-  rank          ProviderRank?
-  calendars     ProviderCalendarAccount[]
-  busy          ProviderBusyWindow[]
+  // Stripe Connect (NEW)
+  stripeAccountId      String?
+  stripeReady          Boolean   @default(false)
+  onboardingCompleteAt DateTime?
+  defaultCurrency      String?   // e.g. "usd" (lowercase by convention)
+
+  // Relations
+  services     ProviderService[]
+  orders       Order[]   @relation("ProviderOrders")
+  bookings     Booking[] @relation("ProviderBookings")
+  availability ProviderAvailability[]
+  reviews      Review[]  @relation("ProviderReviews")
+  tags         ProviderTag[]
+  rank         ProviderRank?
+  calendars    ProviderCalendarAccount[]
+  busy         ProviderBusyWindow[]
   subscriptions Subscription[]
-  metrics       ProviderMetricsDaily[]
+  metrics      ProviderMetricsDaily[]
 
   @@index([isApproved])
   @@index([city, state, country])
+  @@index([stripeAccountId])
 }
 
 model Category {
@@ -125,71 +135,79 @@ model Category {
 }
 
 model ProviderService {
-  id              String      @id @default(uuid())
-  providerId      String
-  categoryId      String?
-  provider        Provider    @relation(fields: [providerId], references: [id])
-  category        Category?   @relation(fields: [categoryId], references: [id])
+  id               String      @id @default(uuid())
+  providerId       String
+  categoryId       String?
+  provider         Provider    @relation(fields: [providerId], references: [id])
+  category         Category?   @relation(fields: [categoryId], references: [id])
 
-  slug            String
-  title           String
-  type            ServiceType
-  description     String?
-  priceFrom       Int?        // cents
-  durationMinutes Int?        // in-person only
-  leadTimeDays    Int?        // digital or in-person logistics
-  imageUrl        String?
-  isActive        Boolean     @default(true)
-  bookingBufferMin Int?       @default(15)
+  slug             String
+  title            String
+  type             ServiceType
+  description      String?
+  priceFrom        Int?        // cents
+  durationMinutes  Int?        // in-person only
+  leadTimeDays     Int?        // digital or in-person logistics
+  imageUrl         String?
+  isActive         Boolean     @default(true)
+  bookingBufferMin Int?        @default(15)
 
   // Relations
-  orders          Order[]
-  bookings        Booking[]
-  tags            ServiceTag[]
+  orders           Order[]
+  bookings         Booking[]
+  tags             ServiceTag[]
 
   @@unique([providerId, slug])
   @@index([type, isActive])
 }
 
 model Order {
-  id                String          @id @default(uuid())
-  clientId          String?
-  providerId        String
-  providerServiceId String
-  provider          Provider        @relation("ProviderOrders", fields: [providerId], references: [id])
-  service           ProviderService @relation(fields: [providerServiceId], references: [id])
+  id                 String          @id @default(uuid())
+  clientId           String?         // Profile.id (later via auth)
+  providerId         String
+  providerServiceId  String
+  provider           Provider        @relation("ProviderOrders", fields: [providerId], references: [id])
+  service            ProviderService @relation(fields: [providerServiceId], references: [id])
 
-  status            OrderStatus     @default(draft)
-  brief             Json?
-  priceCents        Int?
+  // Lifecycle
+  status             OrderStatus     @default(draft)
+  brief              Json?
+  priceCents         Int?
+  // CURRENCY (NEW): stored lowercase; enforce in app code
+  currency           String          @default("usd")
 
-  stripeCheckoutId  String?
-  eta               DateTime?
-  createdAt         DateTime        @default(now())
-  updatedAt         DateTime        @updatedAt
+  // Stripe integration (UPDATED)
+  // We no longer use Checkout — on-site Payment Element => PaymentIntent
+  stripePaymentIntentId String?
+  // Fee kept on the order for reconciliation (NEW)
+  applicationFeeCents   Int?
+  // Transfer created when paying provider (at completion for our flow) (NEW)
+  stripeTransferId      String?
+  // Helpful timestamps (NEW)
+  paidAt             DateTime?
+  acceptedAt         DateTime?
+  completedAt        DateTime?
+  eta                DateTime?
 
-  // NEW: payment audit fields
-  currency          String          @default("usd")
-  applicationFeeCents   Int?        //platform cut in cents  
-  stripePaymentIntentId String?    
-  stripeTransferId      String?     // transfer created by destination charge
-  paidAt            DateTime?
-  acceptsAt         DateTime?       //when provider accepts/starts work
-  refundStatus      RefundStatus    @default(none) //refund lifecycle separate from work status
-  files             OrderFile[]
-  review            Review?
-  dispute           Dispute?
-  agreement         Agreement?
+  // Legacy (kept for compatibility; unused in current flow)
+  stripeCheckoutId   String?
+
+  createdAt          DateTime        @default(now())
+  updatedAt          DateTime        @updatedAt
+
+  // Refund lifecycle (NEW)
+  refundStatus       RefundStatus    @default(none)
+
+  // Relations
+  files              OrderFile[]
+  review             Review?
+  dispute            Dispute?
+  agreement          Agreement?
 
   @@index([status])
   @@index([providerId, providerServiceId])
-}
-
-enum RefundStatus {
-  none
-  requested
-  partial
-  refunded
+  @@index([stripePaymentIntentId])
+  @@index([stripeTransferId])
 }
 
 model OrderFile {
@@ -223,12 +241,12 @@ model Booking {
 }
 
 model ProviderAvailability {
-  id        String  @id @default(uuid())
+  id         String  @id @default(uuid())
   providerId String
   provider   Provider @relation(fields: [providerId], references: [id])
-  weekday   Int      // 0=Sun ... 6=Sat
-  startTime String   // '09:00' local
-  endTime   String   // '17:00' local
+  weekday    Int      // 0=Sun ... 6=Sat
+  startTime  String   // '09:00' local
+  endTime    String   // '17:00' local
 
   @@unique([providerId, weekday, startTime, endTime])
   @@index([weekday])
@@ -286,14 +304,14 @@ model Subscription {
 }
 
 model Agreement {
-  id           String   @id @default(uuid())
-  orderId      String   @unique
-  order        Order    @relation(fields: [orderId], references: [id])
-  templateId   String
-  clientSigUrl String?
+  id             String   @id @default(uuid())
+  orderId        String   @unique
+  order          Order    @relation(fields: [orderId], references: [id])
+  templateId     String
+  clientSigUrl   String?
   providerSigUrl String?
-  pdfUrl       String?
-  createdAt    DateTime @default(now())
+  pdfUrl         String?
+  createdAt      DateTime @default(now())
 }
 
 // TAGGING
@@ -325,23 +343,17 @@ model ServiceTag {
   @@id([providerServiceId, tagId])
 }
 
-model ProcessedStripeEvent {
-    eventId String  @id
-    type    String
-    receivedAt  DateTime@deault(now())
-}
-
 // RANKING (Phase-2 ready; safe to keep enabled; you can comment out if you want ultra-minimal)
 model ProviderMetricsDaily {
-  providerId   String
-  day          DateTime
+  providerId     String
+  day            DateTime
   bookingsCount  Int      @default(0)
   completedCount Int      @default(0)
-  avgReview    Float?
-  responseMs   Int?
-  revenueCents Int       @default(0)
-  xpDelta      Int       @default(0)
-  provider     Provider  @relation(fields: [providerId], references: [id])
+  avgReview      Float?
+  responseMs     Int?
+  revenueCents   Int      @default(0)
+  xpDelta        Int      @default(0)
+  provider       Provider  @relation(fields: [providerId], references: [id])
 
   @@id([providerId, day])
 }
@@ -358,13 +370,13 @@ model ProviderRank {
 
 // SMART SCHEDULING (Phase-2 ready; can be left as is)
 model ProviderCalendarAccount {
-  id         String   @id @default(uuid())
-  providerId String
-  provider   Provider @relation(fields: [providerId], references: [id])
+  id           String   @id @default(uuid())
+  providerId   String
+  provider     Provider @relation(fields: [providerId], references: [id])
   providerName String // 'google' | 'outlook' | 'apple_caldav'
-  oauthJson  Json
-  status     String   @default("active")
-  createdAt  DateTime @default(now())
+  oauthJson    Json
+  status       String   @default("active")
+  createdAt    DateTime @default(now())
 
   @@index([providerId, providerName])
 }
@@ -391,4 +403,13 @@ model Notification {
   createdAt DateTime @default(now())
 
   @@index([profileId, channel, name])
+}
+
+// NEW: Stripe webhook idempotency store (safe for Supabase too)
+model ProcessedStripeEvent {
+  eventId    String   @id
+  type       String
+  receivedAt DateTime @default(now())
+
+  @@index([type, receivedAt])
 }
