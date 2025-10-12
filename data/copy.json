@@ -1,0 +1,14 @@
+{
+  "buttons": {
+    "checkout": "Proceed to Secure Checkout",
+    "loading": "Redirecting…"
+  },
+  "pages": {
+    "checkout": {
+      "successTitle": "Payment received",
+      "successBody": "Thanks — your payment cleared. We’ve moved your order to in-progress and notified the provider.",
+      "cancelTitle": "Checkout canceled",
+      "cancelBody": "Your order was not charged. You can try again or contact support if you hit a blocker."
+    }
+  }
+}

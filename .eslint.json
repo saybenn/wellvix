@@ -1,0 +1,19 @@
+{
+  "rules": {
+    "no-restricted-imports": [
+      "error",
+      {
+        "patterns": [
+          {
+            "group": [
+              "@/lib/env-server",
+              "@/lib/stripe",
+              "@/lib/stripe-connect-admin"
+            ],
+            "message": "Server-only module. Import this ONLY in API routes or server utilities."
+          }
+        ]
+      }
+    ]
+  }
+}

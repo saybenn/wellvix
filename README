@@ -81,32 +81,36 @@ model Profile {
 
 
 model Provider {
-  id          String    @id @default(uuid())
-  profileId   String?   // optional until auth wired
-  profile     Profile?  @relation(fields: [profileId], references: [id])
-  slug        String    @unique
-  displayName String
-  tagline     String?
-  bio         String?
-  rating      Float?    // computed aggregate; nullable until first review
-  city        String?
-  state       String?
-  country     String?
-  isApproved  Boolean   @default(false)
-  createdAt   DateTime  @default(now())
+  id            String    @id @default(uuid())
+  profileId     String?
+  profile       Profile?  @relation(fields: [profileId], references: [id])
+  slug          String    @unique
+  displayName   String
+  tagline       String?
+  bio           String?
+  rating        Float?
+  city          String?
+  state         String?
+  country       String?
+  isApproved    Boolean   @default(false)
+  createdAt     DateTime  @default(now())
 
-  // Relations
-  services    ProviderService[]
-  orders      Order[]   @relation("ProviderOrders")
-  bookings    Booking[] @relation("ProviderBookings")
-  availability ProviderAvailability[]
-  reviews     Review[]  @relation("ProviderReviews")
-  tags        ProviderTag[]
-  rank        ProviderRank?
-  calendars   ProviderCalendarAccount[]
-  busy        ProviderBusyWindow[]
+  // NEW: Stripe Connect account id (acct_...)
+  stripeAccountId String? @db.VarChar(255)
+  stripeReady   Boolean     @default(false) //onboarding completed
+  onboardingCompleteAt  DateTime?
+  defaultCurrency   String?     @default("usd")
+  services      ProviderService[]
+  orders        Order[]   @relation("ProviderOrders")
+  bookings      Booking[] @relation("ProviderBookings")
+  availability  ProviderAvailability[]
+  reviews       Review[]  @relation("ProviderReviews")
+  tags          ProviderTag[]
+  rank          ProviderRank?
+  calendars     ProviderCalendarAccount[]
+  busy          ProviderBusyWindow[]
   subscriptions Subscription[]
-  metrics ProviderMetricsDaily[]
+  metrics       ProviderMetricsDaily[]
 
   @@index([isApproved])
   @@index([city, state, country])
@@ -148,27 +152,44 @@ model ProviderService {
 }
 
 model Order {
-  id                String       @id @default(uuid())
-  clientId          String?      // Profile.id (later via auth)
+  id                String          @id @default(uuid())
+  clientId          String?
   providerId        String
   providerServiceId String
-  provider          Provider     @relation("ProviderOrders", fields: [providerId], references: [id])
+  provider          Provider        @relation("ProviderOrders", fields: [providerId], references: [id])
   service           ProviderService @relation(fields: [providerServiceId], references: [id])
 
-  status            OrderStatus  @default(draft)
+  status            OrderStatus     @default(draft)
   brief             Json?
   priceCents        Int?
+
   stripeCheckoutId  String?
   eta               DateTime?
-  createdAt         DateTime     @default(now())
-  updatedAt         DateTime     @updatedAt
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
 
+  // NEW: payment audit fields
+  currency          String          @default("usd")
+  applicationFeeCents   Int?        //platform cut in cents  
+  stripePaymentIntentId String?    
+  stripeTransferId      String?     // transfer created by destination charge
+  paidAt            DateTime?
+  acceptsAt         DateTime?       //when provider accepts/starts work
+  refundStatus      RefundStatus    @default(none) //refund lifecycle separate from work status
   files             OrderFile[]
   review            Review?
   dispute           Dispute?
-agreement Agreement?
+  agreement         Agreement?
+
   @@index([status])
   @@index([providerId, providerServiceId])
+}
+
+enum RefundStatus {
+  none
+  requested
+  partial
+  refunded
 }
 
 model OrderFile {
@@ -302,6 +323,12 @@ model ServiceTag {
   tag               Tag             @relation(fields: [tagId], references: [id])
 
   @@id([providerServiceId, tagId])
+}
+
+model ProcessedStripeEvent {
+    eventId String  @id
+    type    String
+    receivedAt  DateTime@deault(now())
 }
 
 // RANKING (Phase-2 ready; safe to keep enabled; you can comment out if you want ultra-minimal)

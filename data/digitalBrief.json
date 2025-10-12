@@ -1,0 +1,63 @@
+{
+  "copy": {
+    "title": "Digital Project Brief",
+    "intro": "Tell us what you need. This creates a draft order (no charge yet).",
+    "submitLabel": "Save Draft & Continue",
+    "successTitle": "Draft created",
+    "successBody": "Your draft order is ready. You can review and proceed to checkout.",
+    "errorTitle": "Something went wrong",
+    "errorBody": "We couldn't save your draft. Please try again."
+  },
+  "fields": [
+    {
+      "id": "project_title",
+      "label": "Project Title",
+      "placeholder": "e.g., Brand refresh and landing page assets",
+      "type": "text",
+      "required": true
+    },
+    {
+      "id": "goals",
+      "label": "Goals / Outcomes",
+      "placeholder": "What success looks like. e.g., better conversion, consistent look…",
+      "type": "textarea",
+      "required": true
+    },
+    {
+      "id": "deliverables",
+      "label": "Deliverables",
+      "placeholder": "List the files/artefacts you expect. e.g., 6 IG posts, 3 banners…",
+      "type": "textarea",
+      "required": true
+    },
+    {
+      "id": "budget",
+      "label": "Budget (USD)",
+      "placeholder": "e.g., 500",
+      "type": "number",
+      "required": false,
+      "min": 0
+    },
+    {
+      "id": "deadline",
+      "label": "Preferred Deadline",
+      "placeholder": "",
+      "type": "date",
+      "required": false
+    },
+    {
+      "id": "reference_links",
+      "label": "Reference Links",
+      "placeholder": "Comma-separated URLs",
+      "type": "text",
+      "required": false
+    },
+    {
+      "id": "notes",
+      "label": "Notes",
+      "placeholder": "Anything else the provider should know?",
+      "type": "textarea",
+      "required": false
+    }
+  ]
+}

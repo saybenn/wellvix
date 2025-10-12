@@ -2,27 +2,35 @@
   {
     "id": "prov-alpha",
     "slug": "alpha-studio",
-    "display_name": "Alpha Studio",
+    "displayName": "Alpha Studio",
     "tagline": "Logos, brand kits, and visual systems",
     "bio": "We craft clean, scalable brand systems for startups.",
     "rating": 4.9,
     "city": "Austin",
     "state": "TX",
     "country": "US",
-    "is_approved": true,
-    "tags": ["branding", "logo", "startup"]
+    "isApproved": true,
+    "tags": ["branding", "logo", "startup"],
+    "stripeAccountId": "acct_1SHDyQQfmMQvPQbU",
+    "stripeReady": false,
+    "onboardingCompleteAt": null,
+    "defaultCurrency": "usd"
   },
+
   {
     "id": "prov-blend",
     "slug": "blend-wellness",
-    "display_name": "Blend Wellness",
+    "displayName": "Blend Wellness",
     "tagline": "Personal training and recovery (in-person)",
     "bio": "Strength training and recovery plans with measurable results.",
     "rating": 4.8,
     "city": "Miami",
     "state": "FL",
     "country": "US",
-    "is_approved": true,
-    "tags": ["fitness", "strength", "recovery"]
+    "isApproved": true,
+    "tags": ["fitness", "strength", "recovery"],
+    "stripeAccountId": "acct_1SHTjMHUTJvEPBLm",
+    "onboardingCompleteAt": null,
+    "defaultCurrency": "usd"
   }
 ]

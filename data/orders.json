@@ -1,0 +1,61 @@
+[
+  {
+    "id": "ord-1001",
+    "clientId": null,
+    "providerId": "prov-alpha",
+    "providerServiceId": "svc-alpha-brand-kit",
+    "status": "in_progress",
+    "brief": {
+      "notes": "New logo + brand kit"
+    },
+    "priceCents": 12000,
+    "currency": "usd",
+    "applicationFeeCents": 1200,
+    "stripePaymentIntentId": "pi_3SHEpSHr3B4Bb6c71lIXFPbf",
+    "stripeTransferId": null,
+    "refundStatus": "none",
+    "paidAt": "2025-10-12T02:20:29.234Z",
+    "acceptedAt": "2025-10-12T02:27:45.219Z",
+    "eta": "2025-10-20T00:00:00.000Z",
+    "createdAt": "2025-10-10T00:00:00.000Z",
+    "updatedAt": "2025-10-12T02:27:45.245Z",
+    "lineItems": [
+      {
+        "name": "Tier",
+        "description": "Digital branding package",
+        "unitAmount": 12000,
+        "quantity": 1
+      }
+    ]
+  },
+  {
+    "id": "ord-1002",
+    "clientId": null,
+    "providerId": "prov-blend",
+    "providerServiceId": "personal-training",
+    "status": "completed",
+    "brief": {
+      "notes": "45 minute personal training session"
+    },
+    "priceCents": 8000,
+    "currency": "usd",
+    "applicationFeeCents": 800,
+    "stripePaymentIntentId": "pi_3SHUB3Hr3B4Bb6c70xX7IP1S",
+    "stripeTransferId": "tr_1SHUwkHr3B4Bb6c7cVzPRwBM",
+    "refundStatus": "none",
+    "paidAt": "2025-10-12T18:39:44.347Z",
+    "acceptedAt": "2025-10-12T18:58:45.211Z",
+    "eta": "2025-10-20T00:00:00.000Z",
+    "createdAt": "2025-10-10T00:00:00.000Z",
+    "updatedAt": "2025-10-12T19:28:47.580Z",
+    "lineItems": [
+      {
+        "name": "Tier",
+        "description": "Personal training",
+        "unitAmount": 8000,
+        "quantity": 1
+      }
+    ],
+    "completedAt": "2025-10-12T19:28:47.519Z"
+  }
+]

@@ -23,3 +23,11 @@ export default function MyApp({ Component, pageProps }) {
   );
 }
 
+// TODO: (optional) Migrate components that import supabase directly from /lib/supabaseClient
+// to use the provided context hook instead:
+//
+//   import { useSupabaseClient } from "@supabase/auth-helpers-react";
+//   const supabase = useSupabaseClient();
+//
+// This ensures a single client instance/app and avoids subtle session duplication.
+
