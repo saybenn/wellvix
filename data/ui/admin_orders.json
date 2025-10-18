@@ -1,0 +1,43 @@
+{
+  "title": "Orders (admin)",
+  "loading": "Loading…",
+  "empty": "No orders",
+  "columns": {
+    "amount": "Amount",
+    "pi": "PI",
+    "transfer": "Transfer",
+    "fee": "Fee",
+    "paid": "Paid",
+    "accepted": "Accepted",
+    "delivered": "Delivered",
+    "completed": "Completed",
+    "revisions": "Revisions",
+    "delivery_note": "Delivery note"
+  },
+  "chips": {
+    "paid": "Paid — Work Authorized"
+  },
+  "actions": {
+    "open_checkout": "Open Checkout",
+    "mark_accepted": "Mark Accepted",
+    "mark_delivered": "Mark Delivered",
+    "approve_pay": "Approve & Pay Provider",
+    "request_revision": "Request Revision"
+  },
+  "hints": {
+    "only_when_awaiting_provider": "Only when awaiting_provider",
+    "only_after_accepted": "Only after accepted",
+    "client_must_pay_first": "Client must pay first",
+    "only_after_delivered": "Only after delivered"
+  },
+  "toasts": {
+    "accept_success": "Order marked accepted.",
+    "accept_error": "Failed to mark accepted.",
+    "deliver_success": "Order delivered.",
+    "deliver_error": "Failed to deliver.",
+    "approve_success": "Order approved and payout triggered.",
+    "approve_error": "Failed to approve.",
+    "revision_success": "Revision requested.",
+    "revision_error": "Failed to request revision."
+  }
+}

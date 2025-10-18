@@ -4,7 +4,7 @@
     "clientId": null,
     "providerId": "prov-alpha",
     "providerServiceId": "svc-alpha-brand-kit",
-    "status": "in_progress",
+    "status": "completed",
     "brief": {
       "notes": "New logo + brand kit"
     },
@@ -12,13 +12,13 @@
     "currency": "usd",
     "applicationFeeCents": 1200,
     "stripePaymentIntentId": "pi_3SHEpSHr3B4Bb6c71lIXFPbf",
-    "stripeTransferId": null,
+    "stripeTransferId": "tr_1SJMmVHr3B4Bb6c7vD4EQZBM",
     "refundStatus": "none",
     "paidAt": "2025-10-12T02:20:29.234Z",
     "acceptedAt": "2025-10-12T02:27:45.219Z",
     "eta": "2025-10-20T00:00:00.000Z",
     "createdAt": "2025-10-10T00:00:00.000Z",
-    "updatedAt": "2025-10-12T02:27:45.245Z",
+    "updatedAt": "2025-10-17T23:09:54.696Z",
     "lineItems": [
       {
         "name": "Tier",
@@ -26,7 +26,12 @@
         "unitAmount": 12000,
         "quantity": 1
       }
-    ]
+    ],
+    "deliveryNote": "Website",
+    "deliveryFiles": [],
+    "deliveredAt": "2025-10-17T23:05:02.430Z",
+    "completedAt": "2025-10-17T23:09:54.587Z",
+    "autoCompleted": false
   },
   {
     "id": "ord-1002",
@@ -57,5 +62,74 @@
       }
     ],
     "completedAt": "2025-10-12T19:28:47.519Z"
+  },
+  {
+    "id": "ord-1003",
+    "clientId": null,
+    "providerId": "prov-david",
+    "providerServiceId": "personal-training",
+    "status": "completed",
+    "brief": {
+      "notes": "45 minute personal training session"
+    },
+    "priceCents": 12000,
+    "currency": "usd",
+    "applicationFeeCents": 1200,
+    "stripePaymentIntentId": "pi_3SHtSpHr3B4Bb6c70bi72RRJ",
+    "stripeTransferId": "tr_1SHtbSHr3B4Bb6c7BwQgMAi2",
+    "refundStatus": "none",
+    "paidAt": "2025-10-13T21:39:50.805Z",
+    "acceptedAt": "2025-10-13T21:44:51.459Z",
+    "eta": "2025-10-30T00:00:00.000Z",
+    "createdAt": null,
+    "updatedAt": "2025-10-13T21:48:27.952Z",
+    "lineItems": [
+      {
+        "name": "Tier",
+        "description": "Personal training",
+        "unitAmount": 8000,
+        "quantity": 1
+      }
+    ],
+    "completedAt": "2025-10-13T21:48:27.911Z",
+    "deliveredAt": "2025-10-13T21:47:59.378Z",
+    "deliveryNote": "Initial delivery",
+    "deliveryFiles": null,
+    "approvedAt": "2025-10-13T21:48:27.911Z"
+  },
+  {
+    "id": "ord-1004",
+    "title": "Logo",
+    "clientId": null,
+    "providerId": "prov-alpha",
+    "providerServiceId": "svc-alpha-brand-kit",
+    "status": "accepted",
+    "brief": {
+      "notes": "New logo + brand kit"
+    },
+    "priceCents": 18000,
+    "currency": "usd",
+    "applicationFeeCents": 1800,
+    "stripePaymentIntentId": "pi_3SJNC7Hr3B4Bb6c70foUIMzV",
+    "stripeTransferId": null,
+    "refundStatus": "none",
+    "paidAt": "2025-10-13T21:39:50.805Z",
+    "acceptedAt": "2025-10-18T00:26:12.790Z",
+    "eta": null,
+    "createdAt": "2025-10-10T00:00:00.000Z",
+    "updatedAt": "2025-10-18T00:26:12.811Z",
+    "lineItems": [
+      {
+        "name": "Tier",
+        "description": "Digital branding package",
+        "unitAmount": 12000,
+        "quantity": 1
+      }
+    ],
+    "deliveryNote": null,
+    "deliveryFiles": [],
+    "deliveredAt": null,
+    "completedAt": null,
+    "autoCompleted": false
   }
 ]

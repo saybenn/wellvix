@@ -1,19 +1,11 @@
 // /pages/api/orders/approve.js
-// Reviewer (client/admin) approves the delivered work:
-// delivered -> completed AND PAY PROVIDER via Stripe Transfer.
-// Uses SK admin client to keep RK minimal.
-//
-// TODO AuthZ (Supabase): ensure requester is the order's client or an admin.
-import env from "@/lib/env-server";
-import { stripeConnectAdmin as stripe } from "@/lib/stripe-connect-admin";
-import { getOrderById, setOrderStatus, updateOrder } from "@/lib/orders-store";
-import { getProviderById } from "@/lib/providers-store";
+// Client accepts delivery. Moves: delivered -> completed
+// Creates a Stripe Transfer (escrow release). If transfer fails, surface error and leave status as 'delivered' with error fields.
+// TODO AuthZ: ensure requester is the client (Supabase RLS).
 
-function computeNet(amountCents, feeCents) {
-  const amt = Number(amountCents || 0);
-  const fee = Number(feeCents || 0);
-  return Math.max(amt - fee, 0);
-}
+import config from "@/lib/config";
+import { getOrderById, setOrderStatus, updateOrder } from "@/lib/orders-store";
+import { performPayout } from "@/lib/payouts";
 
 export default async function handler(req, res) {
   if (req.method !== "POST")
@@ -31,69 +23,45 @@ export default async function handler(req, res) {
       });
     }
 
-    const provider = await getProviderById(order.providerId);
-    if (!provider?.stripeAccountId)
+    try {
+      const { transferId, feeCents, netCents, currency } = await performPayout(
+        order
+      );
+      const completedAt = new Date().toISOString();
+
+      await updateOrder(orderId, {
+        stripeTransferId: transferId,
+        applicationFeeCents: feeCents,
+        completedAt,
+        autoCompleted: false,
+        approvalErrorCode: null,
+        approvalErrorAt: null,
+      });
+      await setOrderStatus(orderId, "completed");
+
+      return res.status(200).json({
+        ok: true,
+        orderId,
+        transferId,
+        netCents,
+        feeCents,
+        currency,
+        completedAt,
+        reviewWindowDays: config.REVIEW_WINDOW_DAYS,
+      });
+    } catch (err) {
+      // Do not change status; record error so admin can intervene/retry.
+      const code = err?.raw?.code || err?.code || "transfer_failed";
+      await updateOrder(orderId, {
+        approvalErrorCode: code,
+        approvalErrorAt: new Date().toISOString(),
+      });
       return res
-        .status(400)
-        .json({ error: "Provider missing stripeAccountId" });
-
-    const amount = Number(order.priceCents || 0);
-    if (amount <= 0)
-      return res.status(400).json({ error: "Invalid priceCents" });
-
-    const feeCents =
-      typeof order.applicationFeeCents === "number"
-        ? order.applicationFeeCents
-        : Math.round((amount * Number(env.WELLVIX_PLATFORM_FEE_PERCENT)) / 100);
-
-    const net = computeNet(amount, feeCents);
-    const currency = (
-      order.currency ||
-      provider.defaultCurrency ||
-      "usd"
-    ).toLowerCase();
-
-    let transferId = order.stripeTransferId || null;
-    if (!transferId) {
-      try {
-        const transfer = await stripe.transfers.create({
-          amount: net,
-          currency,
-          destination: provider.stripeAccountId,
-          transfer_group: `order_${order.id}`,
-          metadata: { orderId: order.id, phase: "approve" },
-        });
-        transferId = transfer.id;
-      } catch (err) {
-        const code = err?.raw?.code || err?.code;
-        const message = err?.raw?.message || err?.message || "Transfer failed";
-        return res.status(409).json({ ok: false, error: message, code });
-      }
+        .status(409)
+        .json({ ok: false, error: err?.message || "Transfer failed", code });
     }
-
-    const completedAt = new Date().toISOString();
-    await updateOrder(orderId, {
-      stripeTransferId: transferId,
-      applicationFeeCents: feeCents,
-      completedAt,
-      approvedAt: completedAt,
-    });
-    await setOrderStatus(orderId, "completed");
-
-    // TODO: Notifications
-    // - Email/SMS: notify provider "Approved & Paid", notify client "Receipt/Confirmation"
-
-    return res.status(200).json({
-      ok: true,
-      orderId,
-      transferId,
-      netCents: net,
-      feeCents,
-      currency,
-      completedAt,
-    });
   } catch (e) {
-    console.error("approve error", e);
+    console.error("approve error:", e);
     return res.status(500).json({ error: "Internal error" });
   }
 }

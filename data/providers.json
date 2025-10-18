@@ -16,6 +16,23 @@
     "onboardingCompleteAt": null,
     "defaultCurrency": "usd"
   },
+  {
+    "id": "prov-david",
+    "slug": "wellvix-studio",
+    "displayName": "wellvix Studio",
+    "tagline": "Logos, brand kits, and visual systems",
+    "bio": "We craft clean, scalable brand systems for startups.",
+    "rating": 4.9,
+    "city": "Virginia beach",
+    "state": "VA",
+    "country": "US",
+    "isApproved": false,
+    "tags": ["branding", "logo", "startup"],
+    "stripeAccountId": "acct_1SHtAqHJYfWBWD92",
+    "stripeReady": false,
+    "onboardingCompleteAt": null,
+    "defaultCurrency": "usd"
+  },
 
   {
     "id": "prov-blend",

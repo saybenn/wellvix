@@ -1,4 +1,5 @@
 // /pages/checkout/success.js
+import Link from "next/link";
 import { useRouter } from "next/router";
 
 export default function CheckoutSuccess() {
@@ -21,18 +22,18 @@ export default function CheckoutSuccess() {
           <p>Provider will start work after they accept the order.</p>
         </div>
         <div className="mt-6 flex gap-3">
-          <a
+          <Link
             href={`/orders/${orderId || ""}`}
             className="rounded-lg bg-blue-600 hover:bg-blue-500 text-white px-4 py-2"
           >
             View order
-          </a>
-          <a
-            href="/admin/dev/orders"
+          </Link>
+          <Link
+            href="/admin/orders"
             className="rounded-lg bg-green-500 text-ink-900 px-4 py-2"
           >
-            Admin orders (dev)
-          </a>
+            Admin orders
+          </Link>
         </div>
       </div>
     </main>

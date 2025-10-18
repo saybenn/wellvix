@@ -28,8 +28,9 @@ enum ServiceType {
 
 enum OrderStatus {
   draft
-  paid
-  in_progress
+  awaiting_provider  
+  accepted
+  
   delivered
   completed
   refunded
@@ -156,7 +157,7 @@ model ProviderService {
   orders           Order[]
   bookings         Booking[]
   tags             ServiceTag[]
-
+//in person or digital service
   @@unique([providerId, slug])
   @@index([type, isActive])
 }
@@ -186,6 +187,8 @@ model Order {
   // Helpful timestamps (NEW)
   paidAt             DateTime?
   acceptedAt         DateTime?
+  deliveredAt        DateTime?       // NEW
+  approvedAt         DateTime?       // NEW (if you later separate approve vs payout)
   completedAt        DateTime?
   eta                DateTime?
 
@@ -197,6 +200,13 @@ model Order {
 
   // Refund lifecycle (NEW)
   refundStatus       RefundStatus    @default(none)
+
+  // Delivery metadata
+  deliveryNote       String?         // NEW: the provider's note at delivery
+  revisionCount      Int             @default(0) // NEW
+  approvalErrorCode  String?         // NEW: if transfer fails on approve
+  approvalErrorAt    DateTime?       // NEW
+  autoCompleted      Boolean?        // NEW (cron-completed flag)
 
   // Relations
   files              OrderFile[]
@@ -216,9 +226,35 @@ model OrderFile {
   order     Order    @relation(fields: [orderId], references: [id])
   role      FileRole
   fileUrl   String
+  note      String?  // <-- NEW
   createdAt DateTime @default(now())
 
   @@index([orderId, role])
+}
+
+// NEW: OrderEvent for audit logging transitions & actions
+enum OrderEventActor {
+  system
+  webhook
+  provider
+  client
+  admin
+}
+
+model OrderEvent {
+  id          String           @id @default(uuid())
+  orderId     String
+  order       Order            @relation(fields: [orderId], references: [id])
+  actor       OrderEventActor  // who did it
+  actorId     String?          // Profile.id when known
+  fromStatus  OrderStatus?
+  toStatus    OrderStatus?
+  name        String           // e.g., 'status_transition', 'file_uploaded'
+  reason      String?
+  data        Json?
+  createdAt   DateTime         @default(now())
+
+  @@index([orderId, createdAt])
 }
 
 model Booking {

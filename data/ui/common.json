@@ -1,0 +1,17 @@
+{
+  "toasts": {
+    "accept_success": "Order accepted — you’re in progress.",
+    "accept_error": "Could not accept this order.",
+    "deliver_success": "Delivery sent for client review.",
+    "deliver_error": "Could not send delivery.",
+    "approve_success": "Approved — payout released.",
+    "approve_error": "Approval failed.",
+    "revision_success": "Revision requested.",
+    "revision_error": "Could not request revision."
+  },
+  "labels": {
+    "loading": "Loading…",
+    "retry": "Retry",
+    "close": "Close"
+  }
+}

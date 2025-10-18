@@ -1,47 +1,7 @@
 [
   {
-    "eventId": "evt_3SHUtpHr3B4Bb6c71ktG99Tq",
-    "type": "charge.updated",
-    "receivedAt": "2025-10-12T19:25:48.987Z"
-  },
-  {
-    "eventId": "evt_1SHUwVHr3B4Bb6c7h98EKPp9",
-    "type": "source.chargeable",
-    "receivedAt": "2025-10-12T19:28:32.396Z"
-  },
-  {
-    "eventId": "evt_1SHUwVHr3B4Bb6c7ZZpqwxOv",
-    "type": "source.transaction.created",
-    "receivedAt": "2025-10-12T19:28:32.493Z"
-  },
-  {
-    "eventId": "evt_1SHUwYHr3B4Bb6c7Egd4YIFc",
-    "type": "topup.succeeded",
-    "receivedAt": "2025-10-12T19:28:34.940Z"
-  },
-  {
-    "eventId": "evt_1SHUwYHr3B4Bb6c7NrLttVvm",
-    "type": "topup.created",
-    "receivedAt": "2025-10-12T19:28:35.161Z"
-  },
-  {
-    "eventId": "evt_1SHUwlHr3B4Bb6c72Cr2WQT1",
-    "type": "transfer.created",
-    "receivedAt": "2025-10-12T19:28:47.840Z"
-  },
-  {
-    "eventId": "evt_1SHUwlHUTJvEPBLmKt0Dw5nq",
-    "type": "payment.created",
-    "receivedAt": "2025-10-12T19:28:47.858Z"
-  },
-  {
-    "eventId": "evt_1SHUxWHr3B4Bb6c7zr0rcyG0",
+    "eventId": "evt_1SHtcTHJYfWBWD92XqjxEUd8",
     "type": "balance.available",
-    "receivedAt": "2025-10-12T19:29:35.234Z"
-  },
-  {
-    "eventId": "evt_1SHUxjHUTJvEPBLmjJguawbp",
-    "type": "balance.available",
-    "receivedAt": "2025-10-12T19:29:47.914Z"
+    "receivedAt": "2025-10-13T21:49:29.915Z"
   }
 ]

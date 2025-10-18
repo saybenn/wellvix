@@ -1,0 +1,65 @@
+{
+  "title": "Your Orders",
+  "subtitle": "Manage in-progress work and handoffs",
+  "columns": {
+    "order": "Order",
+    "client": "Client",
+    "amount": "Amount",
+    "status": "Status",
+    "updated": "Updated",
+    "actions": "Actions",
+    "id": "Order ID"
+  },
+  "filters": {
+    "all": "All",
+    "draft": "Draft",
+    "awaiting_provider": "Awaiting Your Accept",
+    "accepted": "Accepted",
+    "paid": "Paid",
+    "delivered": "Delivered",
+    "completed": "Completed",
+    "refunded": "Refunded",
+    "cancelled": "Cancelled"
+  },
+  "status_labels": {
+    "draft": "Draft",
+    "awaiting_provider": "Awaiting Your Accept",
+    "accepted": "Accepted (Working)",
+    "delivered": "Delivered — Awaiting Client",
+    "completed": "Completed",
+    "refunded": "Refunded",
+    "cancelled": "Cancelled"
+  },
+  "actions": {
+    "view": "View",
+    "accept": "Accept / Start",
+    "deliver": "Mark Delivered",
+    "await_client": "Await Client",
+    "approve": "Approve",
+    "request_revision": "Request Revision",
+    "complete_and_pay": "Complete & Pay",
+    "back": "Back to Orders",
+    "saveDelivery": "Send Delivery",
+    "cancel": "Cancel"
+  },
+  "empty": {
+    "title": "No orders yet",
+    "subtitle": "When clients book you, orders will appear here."
+  },
+  "detail": {
+    "header": "Order Detail",
+    "brief": "Brief",
+    "files": "Files",
+    "delivery_note": "Delivery Note",
+    "delivery_files": "Delivery Files",
+    "revision_count": "Revisions",
+    "notes": "Delivery Notes",
+    "fileUrl": "Delivery File/URL",
+    "timeline": "Timeline",
+    "meta": "Meta",
+    "cta_deliver_title": "Deliver work",
+    "cta_deliver_note_label": "Note to client",
+    "cta_deliver_files_label": "File URLs (comma separated)",
+    "cta_deliver_submit": "Send Delivery"
+  }
+}

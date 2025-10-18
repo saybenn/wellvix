@@ -22,10 +22,14 @@ export default async function handler(req, res) {
 
     const order = await getOrderById(orderId);
     if (!order) return res.status(404).json({ error: "Order not found" });
-    if (order.status !== "draft")
-      return res.status(409).json({ error: `Order is ${order.status}` });
+    if (order.status !== "accepted")
+      return res.status(409).json({
+        error: `Payment allowed only after provider acceptance (current: ${order.status})`,
+      });
 
     const provider = await getProviderById(order.providerId);
+    if (!provider) return res.status(400).json({ error: "Provider not found" });
+
     if (!provider?.stripeAccountId)
       return res
         .status(400)

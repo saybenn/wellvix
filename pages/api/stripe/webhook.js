@@ -54,9 +54,6 @@ export default async function handler(req, res) {
           paidAt: new Date().toISOString(),
         });
 
-        // Move to in_progress per Day 5 goal
-        await setOrderStatus(orderId, "paid");
-
         break;
       }
 
@@ -78,7 +75,6 @@ export default async function handler(req, res) {
             paidAt: new Date().toISOString(),
             stripeTransferId: transferId,
           });
-          await setOrderStatus(orderId, "paid");
           break;
         }
       }
