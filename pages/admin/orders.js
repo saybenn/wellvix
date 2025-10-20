@@ -102,7 +102,7 @@ export default function AdminOrders() {
 
   return (
     <main className="min-h-screen bg-950 text-white px-6 py-10">
-      <div className="mx-auto max-w-5xl">
+      <div className="mx-auto max-w-11/12">
         <h1 className="text-2xl font-semibold mb-6">{ui.title}</h1>
 
         {loading ? (

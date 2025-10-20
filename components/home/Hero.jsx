@@ -47,7 +47,7 @@ export default function Hero({
         {/* Glass panel */}
         <div
           className={[
-            "w-full max-w-5xl",
+            "w-full max-w-11/12",
             "rounded-[28px] md:rounded-[32px]",
             "px-6 md:px-10 py-8 md:py-10",
             // glass look using your tokens

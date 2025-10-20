@@ -1,0 +1,49 @@
+{
+  "registry": {
+    "title": "Find a Provider",
+    "search_placeholder": "Search providers or services…",
+    "results_none": "No providers match your search."
+  },
+  "profile": {
+    "about": "About",
+    "services": "Services",
+    "reviews": "Reviews",
+    "location": "Location",
+    "book": "Book",
+    "view_service": "View"
+  },
+  "service": {
+    "from": "from",
+    "duration": "Duration",
+    "minutes": "min",
+    "lead": "Lead time",
+    "days": "days",
+    "type_labels": {
+      "digital": "Digital",
+      "in_person": "In-person"
+    },
+    "book_cta": "Book this service",
+    "draft_cta": "Start a brief"
+  },
+  "booking": {
+    "title": "Choose a time",
+    "subtitle": "Pick an available day and time for your session.",
+    "timezone_note": "Times shown in your local time",
+    "unavailable_day": "No availability on this day",
+    "select_day": "Select a day",
+    "select_time": "Select a time",
+    "notes_label": "Notes (optional)",
+    "request_btn": "Request Booking",
+    "success": "Booking requested.",
+    "error_overlap": "That time is no longer available.",
+    "error_outside": "Please choose a time within provider availability.",
+    "error_generic": "Something went wrong. Try again."
+  },
+  "digital": {
+    "title": "Project Brief",
+    "intro": "Share context so your provider can deliver.",
+    "submit": "Create Draft",
+    "eta_label": "Requested ETA (days)",
+    "file_label": "Reference file URL (optional)"
+  }
+}

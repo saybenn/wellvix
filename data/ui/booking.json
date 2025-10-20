@@ -1,0 +1,46 @@
+{
+  "availabilityEditor": {
+    "title": "Availability",
+    "subtitle": "Set your weekly open hours.",
+    "weekday": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+    "addSlot": "Add Slot",
+    "emptyDay": "No slots for this day.",
+    "save": "Save Availability",
+    "savedToast": "Availability saved.",
+    "editSlotTitle": "Edit Time Slot"
+  },
+  "exceptionsEditor": {
+    "title": "Special Availability (Exceptions)",
+    "subtitle": "Mark holidays, days off, or set custom hours for a specific date.",
+    "pickDate": "Pick a date",
+    "note": "Note (optional)",
+    "empty": "No exceptions yet. Pick a date to start.",
+    "closedAllDay": "Closed all day",
+    "addCustomHours": "Add custom hours",
+    "save": "Save Exceptions",
+    "savedToast": "Exceptions saved.",
+    "editSlotTitle": "Edit Custom Hours"
+  },
+  "bookingRequestForm": {
+    "title": "Request a Time",
+    "subtitle": "Pick a date and time during provider availability.",
+    "date": "Date",
+    "start": "Start",
+    "end": "End",
+    "notes": "Notes (optional)",
+    "submit": "Request Booking",
+    "requestedToast": "Booking requested."
+  },
+  "bookingTable": {
+    "title": "Pending Requests",
+    "empty": "No pending requests.",
+    "accept": "Accept",
+    "confirmToast": "Booking confirmed."
+  },
+  "toasts": {
+    "errorOverlap": "Requested time overlaps an existing booking.",
+    "errorOutsideAvailability": "Requested time is outside available hours.",
+    "errorDateClosed": "That date is marked as closed.",
+    "errorGeneric": "Something went wrong. Try again."
+  }
+}

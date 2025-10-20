@@ -11,7 +11,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: "Method not allowed" });
 
   try {
-    const { orderId, note, files } = req.body || {};
+    const { orderId, note, message, files } = req.body || {};
     if (!orderId) return res.status(400).json({ error: "orderId required" });
 
     const order = await getOrderById(orderId);

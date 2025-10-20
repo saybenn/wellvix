@@ -1,0 +1,8 @@
+{
+  "prov-blend": {
+    "2025-11-21": { "closed": true, "note": "Doctor appointment", "slots": [] }
+  },
+  "prov-alpha": {
+    "2025-12-25": { "closed": true, "note": "Holiday", "slots": [] }
+  }
+}

@@ -25,7 +25,7 @@ export default function AdminEvents() {
 
   return (
     <main className="page-shell">
-      <div className="max-w-5xl mx-auto p-6">
+      <div className="max-w-11/12 mx-auto p-6">
         <h1 className="text-2xl font-semibold mb-4">Order Events (dev)</h1>
         {loading ? (
           <div className="card token-muted">Loading…</div>

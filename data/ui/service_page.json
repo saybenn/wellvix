@@ -1,0 +1,38 @@
+{
+  "title_suffix": "— Service",
+  "breadcrumb": {
+    "back": "Back to Provider"
+  },
+  "header": {
+    "from": "from",
+    "per_session": "per session"
+  },
+  "tabs": {
+    "digital": "Digital",
+    "in_person": "In-Person"
+  },
+  "panels": {
+    "digital": {
+      "heading": "Project Brief",
+      "subheading": "Tell the provider what you need. You can add an ETA and links."
+    },
+    "in_person": {
+      "heading": "Book a Time",
+      "subheading": "Pick a date during provider availability."
+    }
+  },
+  "meta": {
+    "includes": "Includes",
+    "duration": "Duration",
+    "lead_time": "Lead time",
+    "type": "Type"
+  },
+  "toasts": {
+    "draft_ok": "Draft created — check your orders.",
+    "draft_err": "Could not save draft.",
+    "book_ok": "Booking requested.",
+    "book_err": "Could not request booking.",
+    "outside_avail": "Selected time is outside provider availability.",
+    "overlap": "That time is already taken. Try another slot."
+  }
+}
